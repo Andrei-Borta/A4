@@ -1,5 +1,7 @@
 package model.adt;
 
+import model.value.IValue;
+
 import java.util.Map;
 
 public interface IHeap<K, V> {
@@ -9,4 +11,5 @@ public interface IHeap<K, V> {
     boolean isDefined(int address);
     Map<K, V> getAll();
     void remove(int address);
+    void setContent(Map<Integer, IValue> newContent);
 }

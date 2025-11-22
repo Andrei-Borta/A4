@@ -6,6 +6,7 @@ import model.value.IValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public record ProgramState(IStack<IStatement> executionStack, IDictionary<String, IValue> symbolTable, IFileTable fileTable, IList<IValue> out, IHeap<Integer, IValue> heap, IStatement startingStatement) {
 
@@ -57,7 +58,7 @@ public record ProgramState(IStack<IStatement> executionStack, IDictionary<String
             heapLines.add("(empty)");
         } else {
             for (var e : heapEntries) {
-                heapLines.add(e.getKey().toString());
+                heapLines.add(e.getKey() + " = " + e.getValue());
             }
         }
 

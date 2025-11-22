@@ -12,7 +12,7 @@ public record ReferenceValue(int address, IType locationType) implements IValue 
     public IValue deepCopy() { return new ReferenceValue(address, locationType.deepCopy()); }
 
     @Override
-    public String toString() { return address + " -> " + locationType.toString(); }
+    public String toString() { return "heap(" + address + "," + locationType.toString() + ")"; }
 
     @Override
     public boolean equals(Object obj) {

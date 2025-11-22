@@ -84,4 +84,18 @@ public class Heap implements IHeap<Integer, IValue> {
 
         content.remove(address);
     }
+
+    @Override
+    public void setContent(Map<Integer, IValue> newContent) throws  LanguageInterpreterADTException {
+        if (newContent == null)
+            throw new LanguageInterpreterADTException("Cannot set heap content to null.");
+
+        content.clear();
+        content.putAll(newContent);
+
+        freeLocation = content.keySet().stream()
+                .max(Integer::compareTo)
+                .map(i -> i + 1)
+                .orElse(1);
+    }
 }

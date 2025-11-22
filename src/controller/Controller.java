@@ -7,6 +7,8 @@ import model.statement.IStatement;
 import model.value.IValue;
 import repository.IRepository;
 
+import java.util.Set;
+
 public class Controller {
     private final IRepository repository;
 
@@ -35,6 +37,16 @@ public class Controller {
 
         while(!currentState.executionStack().isEmpty()) {
             oneStep(currentState, display);
+            repository.logPrgStateExec();
+
+            // collect addresses from symbol table values
+            Set<Integer> symAddresses = GarbageCollector.getAddrFromSymTable(
+                    currentState.symbolTable().getAll().values());
+
+            currentState.heap().setContent(
+                    GarbageCollector.safeGarbageCollector(symAddresses, currentState.heap().getAll())
+            );
+
             repository.logPrgStateExec();
         }
 
