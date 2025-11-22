@@ -23,10 +23,11 @@ public record OpenRFileStatement(IExpression expression) implements IStatement {
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
         var fileTable = state.fileTable();
         var symbolTable = state.symbolTable();
+        var heap = state.heap();
 
         IValue value;
         try {
-            value = expression.evaluate(symbolTable);
+            value = expression.evaluate(symbolTable, heap);
         }
         catch (LanguageInterpreterADTException e) {
             throw new LanguageInterpreterException(e.getMessage());

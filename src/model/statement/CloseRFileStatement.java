@@ -22,10 +22,11 @@ public record CloseRFileStatement(IExpression expression) implements IStatement 
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
         var symTable = state.symbolTable();
         var fileTable = state.fileTable();
+        var heap = state.heap();
 
         IValue value;
         try {
-            value = expression.evaluate(symTable);
+            value = expression.evaluate(symTable, heap);
         } catch (LanguageInterpreterADTException e) {
             throw new LanguageInterpreterException(e.getMessage());
         }

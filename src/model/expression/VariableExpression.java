@@ -3,6 +3,7 @@ package model.expression;
 import exceptions.LanguageInterpreterADTException;
 import exceptions.LanguageInterpreterException;
 import model.adt.IDictionary;
+import model.adt.IHeap;
 import model.value.IValue;
 
 public record VariableExpression(String variableName) implements IExpression {
@@ -13,7 +14,7 @@ public record VariableExpression(String variableName) implements IExpression {
     }
 
     @Override
-    public IValue evaluate(IDictionary<String, IValue> symTable) throws LanguageInterpreterException {
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
         try {
             return symTable.getValue(variableName);
         }

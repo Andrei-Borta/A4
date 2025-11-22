@@ -2,6 +2,7 @@ package model.expression;
 
 import exceptions.LanguageInterpreterException;
 import model.adt.IDictionary;
+import model.adt.IHeap;
 import model.type.IntegerType;
 import model.value.IValue;
 import model.value.IntegerValue;
@@ -15,9 +16,9 @@ public record ArithmeticExpression(String operator, IExpression left, IExpressio
     }
 
     @Override
-    public IValue evaluate(IDictionary<String, IValue> symTable) throws LanguageInterpreterException {
-        var leftTerm = left.evaluate(symTable);
-        var rightTerm = right.evaluate(symTable);
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        var leftTerm = left.evaluate(symTable, heap);
+        var rightTerm = right.evaluate(symTable, heap);
 
         if (!(leftTerm.getType() instanceof IntegerType) || !(rightTerm.getType() instanceof IntegerType)) {
             throw new LanguageInterpreterException("Arithmetic operands must be integers");

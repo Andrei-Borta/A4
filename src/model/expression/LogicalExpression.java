@@ -2,6 +2,7 @@ package model.expression;
 
 import exceptions.LanguageInterpreterException;
 import model.adt.IDictionary;
+import model.adt.IHeap;
 import model.type.BooleanType;
 import model.value.BooleanValue;
 import model.value.IValue;
@@ -15,9 +16,9 @@ public record LogicalExpression(String operator, IExpression left, IExpression r
     }
 
     @Override
-    public IValue evaluate(IDictionary<String, IValue> symTable) throws LanguageInterpreterException {
-        var leftTerm = left.evaluate(symTable);
-        var rightTerm = right.evaluate(symTable);
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        var leftTerm = left.evaluate(symTable, heap);
+        var rightTerm = right.evaluate(symTable, heap);
 
         if (!(leftTerm.getType() instanceof BooleanType) || !(rightTerm.getType() instanceof BooleanType)) {
             throw new LanguageInterpreterException("Logical operands must be booleans");

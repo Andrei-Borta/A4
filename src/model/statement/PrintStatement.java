@@ -8,7 +8,10 @@ public record PrintStatement(IExpression expression) implements IStatement {
 
     @Override
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
-        state.out().add(expression.evaluate(state.symbolTable()));
+        var symbolTable = state.symbolTable();
+        var heap = state.heap();
+
+        state.out().add(expression.evaluate(symbolTable, heap));
         return state;
     }
 

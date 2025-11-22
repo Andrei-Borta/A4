@@ -2,6 +2,7 @@ package model.expression;
 
 import exceptions.LanguageInterpreterException;
 import model.adt.IDictionary;
+import model.adt.IHeap;
 import model.type.IntegerType;
 import model.value.BooleanValue;
 import model.value.IValue;
@@ -16,9 +17,9 @@ public record RelationalExpression(String operator, IExpression left, IExpressio
     }
 
     @Override
-    public IValue evaluate(IDictionary<String, IValue> symTable) throws LanguageInterpreterException {
-        var leftTerm = left.evaluate(symTable);
-        var rightTerm = right.evaluate(symTable);
+    public IValue evaluate(IDictionary<String, IValue> symTable, IHeap<Integer, IValue> heap) throws LanguageInterpreterException {
+        var leftTerm = left.evaluate(symTable, heap);
+        var rightTerm = right.evaluate(symTable, heap);
 
         // Check both are integers
         if (!(leftTerm.getType() instanceof IntegerType) || !(rightTerm.getType() instanceof IntegerType)) {

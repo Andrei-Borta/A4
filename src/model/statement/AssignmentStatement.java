@@ -22,10 +22,11 @@ public record AssignmentStatement(IExpression expression, String variableName)
 
     @Override
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
-        IDictionary<String, IValue> symbolTable = state.symbolTable();
+        var symbolTable = state.symbolTable();
+        var heap = state.heap();
 
         try {
-            IValue value = expression.evaluate(symbolTable);
+            IValue value = expression.evaluate(symbolTable, heap);
 
             if (!value.getType().equals(symbolTable.getValue(variableName).getType())) {
                 throw new LanguageInterpreterException("Variable type mismatch");

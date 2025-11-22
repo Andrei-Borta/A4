@@ -19,7 +19,10 @@ public record IfStatement(IExpression condition, IStatement thenBranch, IStateme
 
     @Override
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
-        IValue result = condition.evaluate(state.symbolTable());
+        var symbolTable = state.symbolTable();
+        var heap = state.heap();
+
+        IValue result = condition.evaluate(symbolTable, heap);
 
         if (result instanceof BooleanValue(boolean value)) {
             if (value) {

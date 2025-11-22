@@ -24,6 +24,7 @@ public record ReadFileStatement(IExpression expression, String variableName) imp
     public ProgramState execute(ProgramState state) throws LanguageInterpreterException {
         var symTable = state.symbolTable();
         var fileTable = state.fileTable();
+        var heap = state.heap();
 
         if (!symTable.isDefined(variableName)) {
             throw new LanguageInterpreterException("Variable " + variableName + " is not defined.");
@@ -42,7 +43,7 @@ public record ReadFileStatement(IExpression expression, String variableName) imp
 
         IValue expValue;
         try {
-            expValue = expression.evaluate(symTable);
+            expValue = expression.evaluate(symTable, heap);
         } catch (LanguageInterpreterADTException e) {
             throw new LanguageInterpreterException(e.getMessage());
         }
