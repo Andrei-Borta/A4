@@ -203,6 +203,24 @@ public class Interpreter {
                 )
         );
 
+        // int v; v=4; (while (v>0) print(v);v=v-1);print(v)
+        IStatement ex8 =  new CompoundStatement(
+                new VariableDeclarationStatement(new IntegerType(), "v"),
+                new CompoundStatement(
+                        new AssignmentStatement(new ConstantExpression(new IntegerValue(4)), "v"),
+                        new CompoundStatement(
+                                new WhileStatement(
+                                        new RelationalExpression(">", new VariableExpression("v"), new ConstantExpression(new IntegerValue(0))),
+                                        new CompoundStatement(
+                                                new PrintStatement(new VariableExpression("v")),
+                                                new AssignmentStatement(new ArithmeticExpression("-", new VariableExpression("v"), new ConstantExpression(new IntegerValue(1))), "v")
+                                        )
+                                ),
+                                new PrintStatement(new VariableExpression("v"))
+                        )
+                )
+        );
+
         // =========================================================================================
 
         ProgramState prg1 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex1.deepCopy());
@@ -212,6 +230,7 @@ public class Interpreter {
         ProgramState prg5 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex5.deepCopy());
         ProgramState prg6 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex6.deepCopy());
         ProgramState prg7 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex7.deepCopy());
+        ProgramState prg8 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex8.deepCopy());
 
         IRepository repo1 = new Repository(prg1, "log1.txt");
         Controller ctr1 = new Controller(repo1);
@@ -234,6 +253,9 @@ public class Interpreter {
         IRepository repo7 = new Repository(prg7, "log7.txt");
         Controller ctr7 = new Controller(repo7);
 
+        IRepository repo8 = new Repository(prg8, "log8.txt");
+        Controller ctr8 = new Controller(repo8);
+
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "Exit"));
         menu.addCommand(new RunExampleCommand("1", ex1 == null ? "Example 1" : ex1.toString(), ctr1));
@@ -243,6 +265,7 @@ public class Interpreter {
         menu.addCommand(new RunExampleCommand("5", ex5 == null ? "Example 5" : ex5.toString(), ctr5));
         menu.addCommand(new RunExampleCommand("6", ex6 == null ? "Example 6" : ex6.toString(), ctr6));
         menu.addCommand(new RunExampleCommand("7", ex7 == null ? "Example 7" : ex7.toString(), ctr7));
+        menu.addCommand(new RunExampleCommand("8", ex8 == null ? "Example 8" : ex8.toString(), ctr8));
         menu.show();
     }
 }
