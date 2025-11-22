@@ -1,16 +1,13 @@
 package model.state;
 
-import model.adt.IDictionary;
-import model.adt.IFileTable;
-import model.adt.IList;
-import model.adt.IStack;
+import model.adt.*;
 import model.statement.IStatement;
 import model.value.IValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record ProgramState(IStack<IStatement> executionStack, IDictionary<String, IValue> symbolTable, IFileTable fileTable, IList<IValue> out, IStatement startingStatement) {
+public record ProgramState(IStack<IStatement> executionStack, IDictionary<String, IValue> symbolTable, IFileTable fileTable, IList<IValue> out, IHeap<Integer, IValue> heap, IStatement startingStatement) {
 
     public ProgramState {
         if (startingStatement != null) {
@@ -54,6 +51,16 @@ public record ProgramState(IStack<IStatement> executionStack, IDictionary<String
             }
         }
 
+        var heapEntries = heap().getAll().entrySet();
+        List<String> heapLines = new ArrayList<>();
+        if (heapEntries.isEmpty()) {
+            heapLines.add("(empty)");
+        } else {
+            for (var e : heapEntries) {
+                heapLines.add(e.getKey().toString());
+            }
+        }
+
         var outputs = out().getAll();
         List<String> outLines = new ArrayList<>();
         if (outputs == null || outputs.isEmpty()) {
@@ -69,6 +76,8 @@ public record ProgramState(IStack<IStatement> executionStack, IDictionary<String
         allContent.addAll(symLines);
         allContent.add("File Table:");
         allContent.addAll(fileLines);
+        allContent.add("Heap:");
+        allContent.addAll(heapLines);
         allContent.add("Output:");
         allContent.addAll(outLines);
 
@@ -95,6 +104,11 @@ public record ProgramState(IStack<IStatement> executionStack, IDictionary<String
         sb.append("│").append(padLine.apply("File Table:")).append("│\n");
         for (String fl : fileLines)
             sb.append("│").append(padLine.apply(fl)).append("│\n");
+        sb.append("├").append("─".repeat(finalInnerWidth)).append("┤\n");
+
+        sb.append("│").append(padLine.apply("Heap:")).append("│\n");
+        for (String hl : heapLines)
+            sb.append("│").append(padLine.apply(hl)).append("│\n");
         sb.append("├").append("─".repeat(finalInnerWidth)).append("┤\n");
 
         sb.append("│").append(padLine.apply("Output:")).append("│\n");

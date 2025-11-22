@@ -164,11 +164,11 @@ public class Interpreter {
 
         // =========================================================================================
 
-        ProgramState prg1 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), ex1.deepCopy());
-        ProgramState prg2 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), ex2.deepCopy());
-        ProgramState prg3 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), ex3.deepCopy());
-        ProgramState prg4 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), ex4.deepCopy());
-        ProgramState prg5 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), ex5.deepCopy());
+        ProgramState prg1 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex1.deepCopy());
+        ProgramState prg2 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex2.deepCopy());
+        ProgramState prg3 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex3.deepCopy());
+        ProgramState prg4 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex4.deepCopy());
+        ProgramState prg5 = new ProgramState(new ExecutionStack<IStatement>(), new SymbolTable<String, IValue>(), new FileTable(), new Out<IValue>(), new Heap(), ex5.deepCopy());
 
         IRepository repo1 = new Repository(prg1, "log1.txt");
         Controller ctr1 = new Controller(repo1);
